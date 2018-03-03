@@ -1,5 +1,6 @@
 const ArtistToken = artifacts.require('./ArtistToken.sol');
 const assert = require('assert');
+const BigNumber = require('bignumber.js');
 
 contract('ArtistToken', accounts => {
   let token;
@@ -26,21 +27,6 @@ contract('ArtistToken', accounts => {
 
   it('has a cap', async function () {
     const cap = await token.cap();
-    assert.equal(cap, 10000000 * (10 ** uint256(decimals)));
+    assert(cap.eq(new BigNumber('10000000e18')));
   });
-
-  // it('assigns the initial total supply to the creator', async function () {
-  //   const totalSupply = await token.totalSupply();
-  //   const creatorBalance = await token.balanceOf(creator);
-
-  //   assert(creatorBalance.eq(totalSupply));
-
-  //   const receipt = web3.eth.getTransactionReceipt(token.transactionHash);
-  //   const logs = decodeLogs(receipt.logs, SimpleToken, token.address);
-  //   assert.equal(logs.length, 1);
-  //   assert.equal(logs[0].event, 'Transfer');
-  //   assert.equal(logs[0].args.from.valueOf(), 0x0);
-  //   assert.equal(logs[0].args.to.valueOf(), creator);
-  //   assert(logs[0].args.value.eq(totalSupply));
-  // });
 });
