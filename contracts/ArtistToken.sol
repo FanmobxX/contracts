@@ -14,4 +14,10 @@ contract ArtistToken is CappedToken {
   uint8 public constant decimals = 18; // solium-disable-line uppercase
 
   uint256 public cap = 10000000 * (10 ** uint256(decimals));
+
+  /**
+   * @dev Constructor.
+   */
+  function ArtistToken() CappedToken(cap) public { }
+
 }

@@ -14,15 +14,20 @@ contract('ArtistToken', accounts => {
     assert.equal(name, 'Tiga Coin');
   });
 
-  // it('has a symbol', async function () {
-  //   const symbol = await token.symbol();
-  //   assert.equal(symbol, 'SIM');
-  // });
+  it('has a symbol', async function () {
+    const symbol = await token.symbol();
+    assert.equal(symbol, 'TIGA');
+  });
 
-  // it('has 18 decimals', async function () {
-  //   const decimals = await token.decimals();
-  //   assert(decimals.eq(18));
-  // });
+  it('has 18 decimals', async function () {
+    const decimals = await token.decimals();
+    assert(decimals.eq(18));
+  });
+
+  it('has a cap', async function () {
+    const cap = await token.cap();
+    assert.equal(cap, 10000000 * (10 ** uint256(decimals)));
+  });
 
   // it('assigns the initial total supply to the creator', async function () {
   //   const totalSupply = await token.totalSupply();

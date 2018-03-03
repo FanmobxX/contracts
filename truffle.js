@@ -4,8 +4,8 @@ module.exports = {
       host: '127.0.0.1',
       port: 7545,
       network_id: '*',
-      gas: 6721975,
-      // gasPrice: 2e10,
+      // gas: 7e6,
+      // gasPrice: 3e10,
     },
     kovan: {
       host: '198.199.66.129',
