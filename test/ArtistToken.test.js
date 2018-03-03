@@ -25,7 +25,7 @@ contract('ArtistToken', accounts => {
     assert(decimals.eq(18));
   });
 
-  it('has a cap', async function () {
+  it('has a cap of 10,000,0000 tokens', async function () {
     const cap = await token.cap();
     assert(cap.eq(new BigNumber('10000000e18')));
   });
