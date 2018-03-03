@@ -1,18 +1,18 @@
-const ArtistToken = artifacts.require('../../src/contracts/ArtistToken.sol');
+const ArtistToken = artifacts.require('./ArtistToken.sol');
 const assert = require('assert');
 
-contract('SimpleToken', accounts => {
+contract('ArtistToken', accounts => {
   let token;
   const creator = accounts[0];
 
-  // beforeEach(async function () {
-  //   token = await SimpleToken.new({ from: creator });
-  // });
+  beforeEach(async () => {
+    token = await ArtistToken.new({ from: creator });
+  });
 
-  // it('has a name', async function () {
-  //   const name = await token.name();
-  //   assert.equal(name, 'SimpleToken');
-  // });
+  it('has a name', async function () {
+    const name = await token.name();
+    assert.equal(name, 'Tiga Coin');
+  });
 
   // it('has a symbol', async function () {
   //   const symbol = await token.symbol();
