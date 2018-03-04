@@ -37,6 +37,7 @@ contract('ArtistToken', accounts => {
     assert(success);
     const totalSupply = await instance.totalSupply.call();
     assert(totalSupply.eq(amount));
+    // check if events fired
     // check new account balance
     // console.log(web3.eth.getBalance(accounts[0]));
     // console.log(web3.eth.getBalance(accounts[2]));
