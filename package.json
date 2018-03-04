@@ -13,7 +13,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bignumber.js": "^6.0.0",
     "zeppelin-solidity": "1.7.0"
   }
 }

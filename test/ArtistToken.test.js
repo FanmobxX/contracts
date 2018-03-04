@@ -1,6 +1,5 @@
 const ArtistToken = artifacts.require('./ArtistToken.sol');
 const assert = require('assert');
-const BigNumber = require('bignumber.js');
 
 contract('ArtistToken', accounts => {
   let token;
@@ -25,8 +24,24 @@ contract('ArtistToken', accounts => {
     assert(decimals.eq(18));
   });
 
-  it('has a cap of 10,000,0000 tokens', async function () {
+  it('has a cap of 10,000,000 tokens', async function () {
     const cap = await token.cap();
-    assert(cap.eq(new BigNumber('10000000e18')));
+    assert(cap.eq(new web3.BigNumber('10000000e18')));
+  });
+
+  it('should mint tokens for fanmob', async () => {
+    const to = accounts[2];
+    const amount = web3.fromWei('500000e18', 'ether');
+    const instance = await ArtistToken.deployed();
+    const success = await instance.mint(to, amount);
+    assert(success);
+    const totalSupply = await instance.totalSupply.call();
+    assert(totalSupply.eq(amount));
+    // check new account balance
+    // console.log(web3.eth.getBalance(accounts[0]));
+    // console.log(web3.eth.getBalance(accounts[2]));
+    // .send({
+    //   from: accounts[0],
+    // });
   });
 });
