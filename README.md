@@ -4,6 +4,13 @@ Contains contracts and tests. This is a separate repo because mocha and npm don'
 
 Tests contracts here before deploying.
 
+## Install
+
+```
+npm install -g truffle
+npm install
+```
+
 ## Usage
 
 `truffle test`
