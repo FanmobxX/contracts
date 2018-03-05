@@ -22,11 +22,16 @@ Compiling zeppelin-solidity/contracts/token/ERC20/StandardToken.sol...
 
 
   Contract: ArtistToken
-    ✓ has a name
+    ✓ has a name (55ms)
     ✓ has a symbol
     ✓ has 18 decimals
-    ✓ has a cap of 10,000,0000 tokens
+    ✓ has a cap of 10,000,000 tokens
+    mint()
+      ✓ should mint tokens for fanmob
+      ✓ should fire events for Mint and Transfer
+      ✓ should update total supply of tokens
+      ✓ should update token balance for fanmob
 
 
-  4 passing (627ms)
+  8 passing (1s)
 ```
