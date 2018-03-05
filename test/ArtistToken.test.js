@@ -29,20 +29,34 @@ contract('ArtistToken', accounts => {
     assert(cap.eq(new web3.BigNumber('10000000e18')));
   });
 
-  it('should mint tokens for fanmob', async () => {
-    const to = accounts[2];
+  describe('mint()', () => {
+    const to = accounts[1];
     const amount = web3.fromWei('500000e18', 'ether');
-    const instance = await ArtistToken.deployed();
-    const success = await instance.mint(to, amount);
-    assert(success);
-    const totalSupply = await instance.totalSupply.call();
-    assert(totalSupply.eq(amount));
-    // check if events fired
-    // check new account balance
-    // console.log(web3.eth.getBalance(accounts[0]));
-    // console.log(web3.eth.getBalance(accounts[2]));
-    // .send({
-    //   from: accounts[0],
-    // });
+    let instance = null;
+    let result = null;
+
+    before(async () => {
+      instance = await ArtistToken.deployed();
+      result = await instance.mint(to, amount);
+    });
+
+    it('should mint tokens for fanmob', async () => {
+      assert(result);
+    });
+
+    it('should fire events for Mint and Transfer', async () => {
+      assert.equal(result.logs[0].event, 'Mint');
+      assert.equal(result.logs[1].event, 'Transfer');
+    });
+
+    it('should update total supply of tokens', async () => {
+      const totalSupply = await instance.totalSupply.call();
+      assert(totalSupply.eq(amount));
+    });
+
+    it('should update token balance for fanmob', async () => {
+      const balance = await instance.balanceOf.call(accounts[1]);
+      assert(balance.eq(amount));
+    });
   });
 });
