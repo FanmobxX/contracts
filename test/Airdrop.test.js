@@ -1,6 +1,7 @@
+const assert = require('assert');
+
 const Airdrop = artifacts.require('./Airdrop.sol');
 const ArtistToken = artifacts.require('./ArtistToken.sol');
-const assert = require('assert');
 
 contract('Airdrop', accounts => {
   let contract;
@@ -10,34 +11,47 @@ contract('Airdrop', accounts => {
   });
 
   describe('multisend()', () => {
-    let tokenAddress = null;
     let airdropInstance = null;
-    let result = null;
+    let artistTokenInstance = null;
 
     before(async () => {
-      const artistTokenInstance = await ArtistToken.deployed();
-      tokenAddress = artistTokenInstance.address;
+      artistTokenInstance = await ArtistToken.deployed();
       airdropInstance = await Airdrop.deployed();
-      console.log(airdropInstance);
     });
 
     it('should deploy airdrop contract', async () => {
+      console.log(`contract address: ${airdropInstance.address}`);
       assert(airdropInstance);
     });
 
-    // it('should fire events for Mint and Transfer', async () => {
-    //   assert.equal(result.logs[0].event, 'Mint');
-    //   assert.equal(result.logs[1].event, 'Transfer');
-    // });
+    it('should get total supply of tokens', async () => {
+      const totalSupply = await artistTokenInstance.totalSupply.call();
+      assert(totalSupply.eq(0));
+    });
 
-    // it('should update total supply of tokens', async () => {
-    //   const totalSupply = await instance.totalSupply.call();
-    //   assert(totalSupply.eq(amount));
-    // });
+    it('should get owner of contract', async () => {
+      const owner = await artistTokenInstance.owner.call();
+      assert.equal(owner, accounts[0]);
+    });
 
-    // it('should update token balance for fanmob', async () => {
-    //   const balance = await instance.balanceOf.call(accounts[1]);
-    //   assert(balance.eq(amount));
-    // });
+    it('should airdrop tokens to addresses', async () => {
+      const tokenAddr = artistTokenInstance.address;
+      const dests = [accounts[1], accounts[2]];
+      const value = 100;
+      console.log(tokenAddr);
+      console.log(dests);
+      console.log(value);
+      // ethTx.getCurrentWeb3().utils.toWei('500000', 'ether');
+      // const value = web3.eth.util.toWei('100', 'ether');
+      const result = await airdropInstance
+        .multisend(
+          tokenAddr,
+          dests,
+          value,
+          // { from: accounts[0] },
+        );
+      console.log(result);
+      assert(result);
+    });
   });
 });
