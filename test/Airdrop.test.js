@@ -1,3 +1,5 @@
+/* eslint-disable */ 
+
 const assert = require('assert');
 
 const Airdrop = artifacts.require('./Airdrop.sol');

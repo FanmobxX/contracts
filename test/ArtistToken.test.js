@@ -1,3 +1,5 @@
+/* eslint-disable */ 
+
 const ArtistToken = artifacts.require('./ArtistToken.sol');
 const assert = require('assert');
 

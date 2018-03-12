@@ -1,3 +1,5 @@
+/* eslint-disable */ 
+
 const CappedToken = artifacts.require('./CappedToken.sol');
 const assert = require('assert');
 
