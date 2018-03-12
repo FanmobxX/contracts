@@ -11,7 +11,11 @@ npm install -g truffle
 npm install
 ```
 
+Install [Ganache](http://truffleframework.com/ganache/).
+
 ## Usage
+
+Run [Ganache](http://truffleframework.com/ganache/).
 
 `truffle test`
 
