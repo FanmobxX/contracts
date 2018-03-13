@@ -1,34 +1,15 @@
 /* eslint-disable */ 
 
-const ArtistToken = artifacts.require('./ArtistToken.sol');
+const CappedToken = artifacts.require('./CappedToken.sol');
 const assert = require('assert');
 
-contract('ArtistToken', accounts => {
+contract('CappedToken', accounts => {
   let token;
   const creator = accounts[0];
 
   beforeEach(async () => {
-    token = await ArtistToken.new({ from: creator });
-  });
-
-  it('has a name', async function () {
-    const name = await token.name();
-    assert.equal(name, 'Tiga Coin');
-  });
-
-  it('has a symbol', async function () {
-    const symbol = await token.symbol();
-    assert.equal(symbol, 'TIGA');
-  });
-
-  it('has 18 decimals', async function () {
-    const decimals = await token.decimals();
-    assert(decimals.eq(18));
-  });
-
-  it('has a cap of 10,000,000 tokens', async function () {
-    const cap = await token.cap();
-    assert(cap.eq(new web3.BigNumber('10000000e18')));
+    // token = await CappedToken.new('50000');
+    token = await CappedToken.new(new web3.BigNumber('10000000e18'));
   });
 
   describe('mint()', () => {
@@ -38,7 +19,7 @@ contract('ArtistToken', accounts => {
     let result = null;
 
     before(async () => {
-      instance = await ArtistToken.deployed();
+      instance = await CappedToken.deployed();
       result = await instance.mint(to, amount);
     });
 

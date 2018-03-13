@@ -1,10 +1,13 @@
+/* eslint-disable */ 
+
 const assert = require('assert');
 
 const Airdrop = artifacts.require('./Airdrop.sol');
-const ArtistToken = artifacts.require('./ArtistToken.sol');
+const CappedToken = artifacts.require('./CappedToken.sol');
 
 contract('Airdrop', accounts => {
   let contract;
+  const owner = accounts[0];
 
   beforeEach(async () => {
     // contract = await Airdrop.new();
@@ -12,45 +15,53 @@ contract('Airdrop', accounts => {
 
   describe('multisend()', () => {
     let airdropInstance = null;
-    let artistTokenInstance = null;
+    let cappedTokenInstance = null;
 
     before(async () => {
-      artistTokenInstance = await ArtistToken.deployed();
+      cappedTokenInstance = await CappedToken.deployed();
       airdropInstance = await Airdrop.deployed();
     });
 
-    it('should deploy airdrop contract', async () => {
-      console.log(`contract address: ${airdropInstance.address}`);
-      assert(airdropInstance);
-    });
-
     it('should get total supply of tokens', async () => {
-      const totalSupply = await artistTokenInstance.totalSupply.call();
+      const totalSupply = await cappedTokenInstance.totalSupply.call();
       assert(totalSupply.eq(0));
     });
 
-    it('should get owner of contract', async () => {
-      const owner = await artistTokenInstance.owner.call();
-      assert.equal(owner, accounts[0]);
+    it('should get owner of contracts', async () => {
+      const tokenOwner = await cappedTokenInstance.owner.call();
+      const airdropOwner = await airdropInstance.owner.call();
+      assert.equal(tokenOwner, owner);
+      assert.equal(airdropOwner, owner);      
+    });
+
+    it('should get cap of token', async () => {
+      const cap = await cappedTokenInstance.cap.call();
+      assert(cap.eq(new web3.BigNumber('10000000e18')));
+    });
+
+    it('should deploy airdrop contract', async () => {
+      assert(airdropInstance);
     });
 
     it('should airdrop tokens to addresses', async () => {
-      const tokenAddr = artistTokenInstance.address;
       const dests = [accounts[1], accounts[2]];
       const value = 100;
-      console.log(tokenAddr);
-      console.log(dests);
-      console.log(value);
-      // ethTx.getCurrentWeb3().utils.toWei('500000', 'ether');
-      // const value = web3.eth.util.toWei('100', 'ether');
-      const result = await airdropInstance
+
+      // console.log(`Airdrop address: ${airdropInstance.address}`);
+      // console.log(`Capped token address: ${cappedTokenInstance.address}`);
+      // console.log(`Destination addresses: ${dests}`);
+      // console.log(`Value: ${value}`);
+      
+      let result = await cappedTokenInstance
+        .transferOwnership(airdropInstance.address);
+
+      result = await airdropInstance
         .multisend(
-          tokenAddr,
+          cappedTokenInstance.address,
           dests,
           value,
-          // { from: accounts[0] },
+          // { from: owner },
         );
-      console.log(result);
       assert(result);
     });
   });
