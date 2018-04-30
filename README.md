@@ -1,8 +1,6 @@
 # Fanmob Contracts
 
-Contains contracts and tests. This is a separate repo because mocha and npm don't work nice with truffle and complicates testing contracts. mocha picks up contract tests and truffle picks up node tests, etc.
-
-Tests contracts here before deploying.
+Contracts and tests for Fanmob.
 
 ## Install
 
